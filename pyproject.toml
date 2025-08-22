@@ -13,6 +13,7 @@ dependencies = [
     "psycopg2-binary (>=2.9.10,<3.0.0)",
     "alembic (>=1.16.4,<2.0.0)",
     "currencyconverter (>=0.18.9,<0.19.0)",
+    "aiogram (>=3.22.0,<4.0.0)",
 ]
 
 
