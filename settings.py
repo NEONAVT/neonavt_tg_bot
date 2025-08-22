@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     LOG_FORMAT: str = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 
+    WEATHER_API: str
+
     @property
     def db_url(self) -> str:
         return f"{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
@@ -27,6 +29,9 @@ class Settings(BaseSettings):
     def send_msg_url(self, text: str) -> str:
         return (f"https://api.telegram.org/bot{self.bot_token}/"
                 f"sendMessage?chat_id={self.admin_chat_id}&text={text}")
+
+    def weather_url(self, city_name) -> str:
+        return f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={self.WEATHER_API}&units=metric&lang=ru"
 
     class Config:
         env_file = ".env"
