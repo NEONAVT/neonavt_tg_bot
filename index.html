@@ -168,8 +168,9 @@
             email: email,
             phone: phone
         }
+        console.log("Отправляю:", data);
         tg.sendData(JSON.stringify(data));
-        tg.close();
+        // tg.close();
     });
 
 </script>
