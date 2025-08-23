@@ -167,17 +167,19 @@
         // Очистка ошибок
         const clearError = (id) => {
             const input = document.getElementById(id);
-            const error = document.getElementById(`error-${id.split('_')[2]}`);
+            const field = id.replace('user_', ''); // → first_name, email, phone
+            const error = document.getElementById(`error-${field}`);
             input.classList.remove("error");
-            error.textContent = "";
+            if (error) error.textContent = "";
         };
 
         // Показать ошибку
         const showError = (id, message) => {
             const input = document.getElementById(id);
-            const error = document.getElementById(`error-${id.split('_')[2]}`);
+            const field = id.replace('user_', '');
+            const error = document.getElementById(`error-${field}`);
             input.classList.add("error");
-            error.textContent = message;
+            if (error) error.textContent = message;
         };
 
         // Обработчик отправки
@@ -218,7 +220,7 @@
             if (hasError) return;
 
             // Все данные валидны — отправляем
-            const data = { name, email, phone };
+            const data = {name, email, phone};
             tg.sendData(JSON.stringify(data));
             tg.close(); // Закрываем после отправки
         });
