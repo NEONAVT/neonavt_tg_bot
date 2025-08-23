@@ -20,7 +20,7 @@ async def start(message: Message):
         inline_keyboard=[[
             InlineKeyboardButton(
                 text="Оформить заказ",
-                web_app=WebAppInfo(url="https://your-domain.com/index.html")
+                web_app=WebAppInfo(url="https://neonavt.github.io/neonavt_tg_bot")
             )
         ]]
     )
@@ -29,6 +29,7 @@ async def start(message: Message):
 
 @dp.message(F.web_app_data)
 async def webapp_data(message: Message):
+    logging.info("Получены данные web_app_data: %s", message.web_app_data.data)
     data = json.loads(message.web_app_data.data)
     text = (
         f"Получен заказ:\n"
@@ -37,6 +38,7 @@ async def webapp_data(message: Message):
         f"Телефон: {data.get('phone')}"
     )
     await message.answer(text, parse_mode=ParseMode.HTML)
+
 
 
 async def main():
