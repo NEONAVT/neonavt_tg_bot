@@ -220,7 +220,12 @@
             if (hasError) return;
 
             // Все данные валидны — отправляем
-            const data = {name, email, phone};
+            const data = {
+                name: name,
+                email: email,
+                phone: phone
+            };
+
             tg.sendData(JSON.stringify(data));
             tg.close(); // Закрываем после отправки
         });
