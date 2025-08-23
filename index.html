@@ -126,13 +126,13 @@
     </script>
     <script>
         let tg = window.Telegram.WebApp;
-        let buy = document.getElementById("buy");
+        let click = document.getElementById("click");
         let order = document.getElementById("order");
-        buy.addEventListener("click", () => {
+        click.addEventListener("click", () => {
             document.getElementById("main").style.display = none;
             document.getElementById("form").style.display = block;
         })
-        buy.addEventListener("click", () => {
+        order.addEventListener("click", () => {
             tg.close()
         });
     </script>
