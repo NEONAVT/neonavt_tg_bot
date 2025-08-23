@@ -129,60 +129,49 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+    let tg = window.Telegram.WebApp;
+    let buy = document.getElementById("buy");
+    let order = document.getElementById("order");
+    tg.expand();
 
-        // Тема Telegram
-        document.body.style.backgroundColor = tg.themeParams.bg_color || (tg.colorScheme === 'dark' ? '#222' : '#fff');
-        document.body.style.color = tg.themeParams.text_color || '#000';
+    buy.addEventListener("click", () => {
+        document.getElementById("main").style.display = "none";
+        document.getElementById("form").style.display = "block";
+        document.getElementById("user_name").value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
+    });
 
-        const clickButton = document.getElementById("click");
-        const orderButton = document.getElementById("order");
-        const main = document.getElementById("main");
-        const form = document.getElementById("form");
 
-        if (!clickButton || !orderButton || !main || !form) {
-            console.error("Элементы не найдены");
+    order.addEventListener("click", () => {
+        document.getElementById("error").innerText = '';
+
+        let name = document.getElementById("user_name").value;
+        let email = document.getElementById("user_email").value;
+        let phone = document.getElementById("user_phone").value;
+
+        if (name.length < 5) {
+            document.getElementById("error").innerText = 'Ошибка в имени';
             return;
         }
 
-        // Переход к форме
-        clickButton.addEventListener("click", () => {
-            main.style.display = "none";
-            form.style.display = "block";
-        });
+        if (email.length < 5) {
+            document.getElementById("error").innerText = 'Ошибка в email';
+            return;
+        }
 
+        if (phone.length < 5) {
+            document.getElementById("error").innerText = 'Ошибка в номере телефона';
+            return;
+        }
 
-        // Обработчик отправки
-        orderButton.addEventListener("click", () => {
-            document.getElementById("error").innerText = ""
-            const name = document.getElementById("user_first_name").value.trim();
-            const email = document.getElementById("user_email").value.trim();
-            const phone = document.getElementById("user_phone").value.trim();
-            if (name.length < 3) {
-                document.getElementById("error").innerText = "Ошибка в имени"
-            }
-
-             if (email.length < 3) {
-                document.getElementById("error").innerText = "Ошибка в email"
-            }
-
-            if (phone.length < 3) {
-                document.getElementById("error").innerText = "Ошибка в номере телефона"
-            }
-
-
-            const data = {
-                name: name,
-                email: email,
-                phone: phone
-            };
-
-            tg.sendData(JSON.stringify(data));
-            tg.close(); // Закрываем после отправки
-        });
+        let data = {
+            name: name,
+            email: email,
+            phone: phone
+        }
+        tg.sendData(JSON.stringify(data));
+        tg.close();
     });
+
 </script>
 </body>
 </html>
