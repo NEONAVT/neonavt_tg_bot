@@ -70,5 +70,15 @@
         <button id="click">ТЫК</button>
     </div>
 <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+document.body.style.backgroundColor = tg.colorScheme === 'dark'
+    ? tg.themeParams.bg_color || '#222'
+    : tg.themeParams.bg_color || '#fff';
+
+document.body.style.color = tg.themeParams.text_color || '#000';
+</script>
 </body>
 </html>
