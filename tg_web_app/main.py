@@ -1,47 +1,56 @@
 import asyncio
-import json
 import logging
-from aiogram import Bot, Dispatcher, F
-from aiogram.types import Message, WebAppInfo
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from aiogram.enums import ParseMode
+from os import getenv
 
-from settings import settings
+import dotenv
+from aiogram import Bot, Dispatcher, types, F
+from aiogram.filters import CommandStart
+from aiogram.types import WebAppInfo, ReplyKeyboardMarkup
 
+dotenv.load_dotenv()
+
+API_TOKEN = getenv('BOT_TOKEN')
+WEBAPP_URL = getenv('WEB_APP_URL')
+
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher()
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(settings.bot_token)
-dp = Dispatcher()
 
-
-@dp.message(F.text == "/start")
-async def start(message: Message):
-    kb = InlineKeyboardMarkup(
-        inline_keyboard=[[
-            InlineKeyboardButton(
-                text="Оформить заказ",
-                web_app=WebAppInfo(url="https://neonavt.github.io/neonavt_tg_bot")
-            )
-        ]]
+@dp.message(CommandStart())
+async def start(message: types.Message):
+    """Handle the /start command from user and print custom keyboard."""
+    kb = [
+        [
+            types.KeyboardButton(text="🚀 Launch WebApp", web_app=WebAppInfo(url=WEBAPP_URL))
+        ],
+        [
+            types.KeyboardButton(text="ℹ️ Information")
+        ],
+    ]
+    keyboard = ReplyKeyboardMarkup(
+        keyboard=kb,
+        resize_keyboard=True,
+        input_field_placeholder="Choose an action"
     )
-    await message.answer("Нажми, чтобы оформить заказ:", reply_markup=kb)
+    await message.answer("Welcome! Choose an action:", reply_markup=keyboard)
 
 
+@dp.message(F.text == "ℹ️ Information")
+async def info(message: types.Message):
+    """Handle the information button and print predefined message."""
+    await message.answer("This is a Telegram bot with a WebApp interface. Click the first button to launch the WebApp.")
+
+
+# @dp.message(F.content_type == types.ContentType.WEB_APP_DATA)
 @dp.message(F.web_app_data)
-async def webapp_data(message: Message):
-    logging.info("Получены данные web_app_data: %s", message.web_app_data.data)
-    data = json.loads(message.web_app_data.data)
-    text = (
-        f"Получен заказ:\n"
-        f"Имя: {data.get('name')}\n"
-        f"Мейл: {data.get('email')}\n"
-        f"Телефон: {data.get('phone')}"
-    )
-    await message.answer(text, parse_mode=ParseMode.HTML)
+async def web_app_data_handler(message: types.Message):
+    """Handle data sent from the WebApp."""
+    await message.answer(f"✅ Data received from WebApp:\n{message.web_app_data.data}")
 
 
-
-async def main():
+async def main() -> None:
+    """Start the bot."""
     await dp.start_polling(bot)
 
 
