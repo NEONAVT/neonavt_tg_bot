@@ -96,45 +96,45 @@
     </style>
 </head>
 <body>
-    <main id="main">
-        <h1>ШОТО ТИПА ПРИЛАЖУХИ</h1>
-        <img src="https://neonavt.github.io/neonavt_tg_bot/cat.png" alt="cat">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <button id="click">ТЫК</button>
-    </main>
-    <form id="form">
-        <input type="text" placeholder="Name" id="user_first_name">
-        <input type="text" placeholder="Email" id="user_email">
-        <input type="text" placeholder="Phone number" id="user_phone">
-        <button id="order">Order</button>
-    </form>
+<main id="main">
+    <h1>ШОТО ТИПА ПРИЛАЖУХИ</h1>
+    <img src="https://neonavt.github.io/neonavt_tg_bot/cat.png" alt="cat">
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+    <button id="click">ТЫК</button>
+</main>
+<form id="form">
+    <input type="text" placeholder="Name" id="user_first_name">
+    <input type="text" placeholder="Email" id="user_email">
+    <input type="text" placeholder="Phone number" id="user_phone">
+    <button id="order" type="button">Order</button>
+</form>
 
-    <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+<script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
-        // Установка цветов по теме Telegram
-        document.body.style.backgroundColor = tg.colorScheme === 'dark'
-            ? tg.themeParams.bg_color || '#222'
-            : tg.themeParams.bg_color || '#fff';
+    // Установка цветов по теме Telegram
+    document.body.style.backgroundColor = tg.colorScheme === 'dark'
+        ? tg.themeParams.bg_color || '#222'
+        : tg.themeParams.bg_color || '#fff';
 
-        document.body.style.color = tg.themeParams.text_color || '#000';
-    </script>
-    <script>
-        let tg = window.Telegram.WebApp;
-        let click = document.getElementById("click");
-        let order = document.getElementById("order");
-        click.addEventListener("click", () => {
-            document.getElementById("main").style.display = "none";
-            document.getElementById("form").style.display = "block";
-        })
-        order.addEventListener("click", () => {
-            tg.close()
-        });
-    </script>
+    document.body.style.color = tg.themeParams.text_color || '#000';
+</script>
+<script>
+    let tg = window.Telegram.WebApp;
+    let click = document.getElementById("click");
+    let order = document.getElementById("order");
+    click.addEventListener("click", () => {
+        document.getElementById("main").style.display = "none";
+        document.getElementById("form").style.display = "block";
+    })
+    order.addEventListener("click", () => {
+        tg.close()
+    });
+</script>
 </body>
 </html>
