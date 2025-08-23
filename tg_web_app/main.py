@@ -9,10 +9,12 @@ dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def start(message: types.Message):
-    hello_button = types.InlineKeyboardButton(text="Open app", web_app=WebAppInfo(url="https://neonavt.github.io/neonavt_tg_bot/tg_web_app/index.html"))
+    hello_button = types.InlineKeyboardButton(
+        text="Open app",
+        web_app=WebAppInfo(url="https://neonavt.github.io/neonavt_tg_bot/")
+    )
     markup = types.InlineKeyboardMarkup(inline_keyboard=[[hello_button]])
     await message.reply("Hello", reply_markup=markup)
-
 
 if __name__ == "__main__":
     asyncio.run(dp.start_polling(bot))
