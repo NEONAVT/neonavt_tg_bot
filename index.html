@@ -2,22 +2,87 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ПРИЛАЖУХА</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #main {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-<div id="main">
-    <h1>ШОТО ТИПА ПРИЛАЖУХИ</h1>
-    <img src="https://neonavt.github.io/neonavt_tg_bot/cat.png" alt="cat">" alt="cat">
-    <<p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-</p>
-    <button id="click">ТЫК</button>
-</div>
-<script>
-    document.getElementById('click').addEventListener('click', function() {
-        alert('Тыкнули!');
-    });
-</script>
+    <div id="main">
+        <h1>ШОТО ТИПА ПРИЛАЖУХИ</h1>
+        <img src="https://neonavt.github.io/neonavt_tg_bot/cat.png" alt="cat">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+        <button id="click">ТЫК</button>
+    </div>
+
+    <script>
+        document.getElementById('click').addEventListener('click', function() {
+            alert('Тыкнули!');
+        });
+    </script>
 </body>
 </html>
