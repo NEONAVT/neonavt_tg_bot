@@ -88,10 +88,23 @@
             font-size: 14px;
             border: 2px solid silver;
             border-radius: 5px;
+            transition: border-color 0.3s ease;
         }
 
         input:focus {
             border-color: #db5d5d;
+        }
+
+        input.error {
+            border-color: #ff0000 !important;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 0.85rem;
+            text-align: left;
+            margin: 5px 5% 10px;
+            min-height: 18px;
         }
     </style>
 </head>
@@ -105,11 +118,18 @@
     </p>
     <button id="click">ТЫК</button>
 </main>
+
 <form id="form">
     <input type="text" placeholder="Name" id="user_first_name">
-    <input type="text" placeholder="Email" id="user_email">
-    <input type="text" placeholder="Phone number" id="user_phone">
-    <button id="order" type="button">Order</button>
+    <div class="error-message" id="error-name"></div>
+
+    <input type="email" placeholder="Email" id="user_email">
+    <div class="error-message" id="error-email"></div>
+
+    <input type="tel" placeholder="Phone number" id="user_phone">
+    <div class="error-message" id="error-phone"></div>
+
+    <button id="order" type="button">Отправить</button>
 </form>
 
 <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
@@ -118,42 +138,89 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Установка цветов темы
-        document.body.style.backgroundColor = tg.colorScheme === 'dark'
-            ? tg.themeParams.bg_color || '#222'
-            : tg.themeParams.bg_color || '#fff';
+        // Тема Telegram
+        document.body.style.backgroundColor = tg.themeParams.bg_color || (tg.colorScheme === 'dark' ? '#222' : '#fff');
         document.body.style.color = tg.themeParams.text_color || '#000';
 
-        // Получаем элементы
         const clickButton = document.getElementById("click");
         const orderButton = document.getElementById("order");
         const main = document.getElementById("main");
         const form = document.getElementById("form");
 
-        // Проверка, что элементы существуют
         if (!clickButton || !orderButton || !main || !form) {
-            console.error("Один или несколько элементов не найдены");
+            console.error("Элементы не найдены");
             return;
         }
 
-        // Обработчик для кнопки "ТЫК"
+        // Переход к форме
         clickButton.addEventListener("click", () => {
             main.style.display = "none";
             form.style.display = "block";
         });
 
-        // Обработчик для кнопки "Order"
+        // Валидация email
+        const isValidEmail = (email) => {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        };
+
+        // Очистка ошибок
+        const clearError = (id) => {
+            const input = document.getElementById(id);
+            const error = document.getElementById(`error-${id.split('_')[2]}`);
+            input.classList.remove("error");
+            error.textContent = "";
+        };
+
+        // Показать ошибку
+        const showError = (id, message) => {
+            const input = document.getElementById(id);
+            const error = document.getElementById(`error-${id.split('_')[2]}`);
+            input.classList.add("error");
+            error.textContent = message;
+        };
+
+        // Обработчик отправки
         orderButton.addEventListener("click", () => {
-            // Собираем данные
-            const name = document.getElementById("user_first_name").value;
-            const email = document.getElementById("user_email").value;
-            const phone = document.getElementById("user_phone").value;
+            const name = document.getElementById("user_first_name").value.trim();
+            const email = document.getElementById("user_email").value.trim();
+            const phone = document.getElementById("user_phone").value.trim();
 
-            // Отправляем данные в Telegram (в примере — просто закрываем с передачей данных)
-            tg.sendData(JSON.stringify({ name, email, phone }));
+            let hasError = false;
 
-            // Можно закрыть, можно отправить боту, зависит от бэкенда
-            tg.close();
+            // Валидация имени
+            if (!name) {
+                showError("user_first_name", "Введите имя");
+                hasError = true;
+            } else {
+                clearError("user_first_name");
+            }
+
+            // Валидация email
+            if (!email) {
+                showError("user_email", "Введите email");
+                hasError = true;
+            } else if (!isValidEmail(email)) {
+                showError("user_email", "Некорректный email");
+                hasError = true;
+            } else {
+                clearError("user_email");
+            }
+
+            // Валидация телефона
+            if (!phone) {
+                showError("user_phone", "Введите номер");
+                hasError = true;
+            } else {
+                clearError("user_phone");
+            }
+
+            if (hasError) return;
+
+            // Все данные валидны — отправляем
+            const data = { name, email, phone };
+            tg.sendData(JSON.stringify(data));
+            tg.close(); // Закрываем после отправки
         });
     });
 </script>
